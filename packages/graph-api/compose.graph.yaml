@@ -1,0 +1,46 @@
+# Local Memgraph for the graph projection.
+#
+# One container, a named volume, no external services.
+#
+# Bring it up:        pnpm db:graph:up
+# Tear down (keep):   pnpm db:graph:down
+# Tear down + wipe:   pnpm db:graph:reset   (down -v && up)
+# End-to-end smoke:   pnpm -C apps/api graph:smoke
+#
+# Image notes:
+#   - memgraph-mage (not plain memgraph): ships the MAGE algorithm modules
+#     (weakly_connected_components etc.) the analytical queries call.
+#   - bolt on 7687 (nothing else in the repo uses it). The API connects with
+#     GRAPH_DB_URI=bolt://localhost:7687 (authless local default).
+#   - Memgraph Lab (browser UI for poking at the graph) on host 3030.
+#
+# Production runs Neo4j Aura instead; the sync emits engine-agnostic Cypher
+# and only the algorithm dialect differs (see src/modules/graph/graph-db/).
+
+services:
+  memgraph:
+    image: memgraph/memgraph-mage:latest
+    container_name: platform-memgraph
+    ports:
+      - "7687:7687"
+    volumes:
+      - memgraph-data:/var/lib/memgraph
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'RETURN 0;' | mgconsole || exit 1"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  lab:
+    image: memgraph/lab:latest
+    container_name: platform-memgraph-lab
+    ports:
+      - "3030:3000"
+    environment:
+      QUICK_CONNECT_MG_HOST: memgraph
+      QUICK_CONNECT_MG_PORT: 7687
+    depends_on:
+      - memgraph
+
+volumes:
+  memgraph-data:

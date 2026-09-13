@@ -1,0 +1,127 @@
+{
+  "name": "@aec-craft/platform-files-api",
+  "version": "0.0.0",
+  "description": "Files API. Blob storage over signed-URL direct-to-bucket uploads (GCS or any S3-compatible service), the org/project file tree, and the document index. Owns its slice of the platform database and its migrations. Embedded in the apps/api host.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./nest": {
+      "import": {
+        "types": "./dist/nest.d.ts",
+        "default": "./dist/nest.js"
+      },
+      "require": {
+        "types": "./dist/nest.d.cts",
+        "default": "./dist/nest.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "drizzle"
+  ],
+  "bin": {
+    "files-api-migrate": "./dist/bin/files-api-migrate.cjs"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "migrate": "tsx bin/files-api-migrate.ts up",
+    "migrate:status": "tsx bin/files-api-migrate.ts status",
+    "migrate:reconcile": "tsx bin/files-api-migrate.ts reconcile",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "lint": "ultracite check",
+    "format": "ultracite fix",
+    "db:index:up": "docker compose -f compose.index.yaml up -d",
+    "db:index:down": "docker compose -f compose.index.yaml down",
+    "db:index:init": "tsx scripts/index-init.ts"
+  },
+  "peerDependencies": {
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0",
+    "@google-cloud/storage": "^7.0.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "google-auth-library": "^9.0.0",
+    "unpdf": "^0.12.0"
+  },
+  "peerDependenciesMeta": {
+    "@aws-sdk/client-s3": {
+      "optional": true
+    },
+    "@aws-sdk/s3-request-presigner": {
+      "optional": true
+    },
+    "@google-cloud/storage": {
+      "optional": true
+    },
+    "@nestjs/common": {
+      "optional": true
+    },
+    "@nestjs/core": {
+      "optional": true
+    },
+    "@nestjs/swagger": {
+      "optional": true
+    },
+    "google-auth-library": {
+      "optional": true
+    },
+    "unpdf": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aec-craft/platform-audit-api": "workspace:*",
+    "@aec-craft/platform-authorization": "workspace:*",
+    "@aec-craft/platform-common": "workspace:*",
+    "@aec-craft/platform-contracts": "workspace:*",
+    "@aec-craft/platform-metadata": "workspace:*",
+    "@aec-craft/platform-users-api": "workspace:*",
+    "drizzle-orm": "^0.44.0",
+    "nestjs-zod": "^4.3.1",
+    "pg": "^8.20.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@aws-sdk/client-s3": "^3.910.0",
+    "@aws-sdk/s3-request-presigner": "^3.910.0",
+    "@google-cloud/storage": "^7.14.0",
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/swagger": "^11.4.2",
+    "@nestjs/testing": "^11.1.19",
+    "@swc/core": "^1.15.41",
+    "@types/express": "^5.0.6",
+    "@types/node": "catalog:",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.0",
+    "google-auth-library": "^9.15.1",
+    "reflect-metadata": "^0.2.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "catalog:",
+    "unpdf": "^0.12.1",
+    "vitest": "catalog:"
+  }
+}

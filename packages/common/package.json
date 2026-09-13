@@ -1,0 +1,97 @@
+{
+  "name": "@aec-craft/platform-common",
+  "version": "0.0.0",
+  "description": "The common layer of the platform's API packages: pagination runtime, list-filter appliers, scope predicates, error plumbing, swagger decorators, the drizzle database-module factory, and the per-package OpenAPI document contract. Domain-free; every API package depends on this instead of on each other.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./nest": {
+      "import": {
+        "types": "./dist/nest.d.ts",
+        "default": "./dist/nest.js"
+      },
+      "require": {
+        "types": "./dist/nest.d.cts",
+        "default": "./dist/nest.cjs"
+      }
+    },
+    "./drizzle": {
+      "import": {
+        "types": "./dist/drizzle.d.ts",
+        "default": "./dist/drizzle.js"
+      },
+      "require": {
+        "types": "./dist/drizzle.d.cts",
+        "default": "./dist/drizzle.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "drizzle-orm": "^0.44.0",
+    "nestjs-zod": "^4.3.1",
+    "pg": "^8.20.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/common": {
+      "optional": true
+    },
+    "@nestjs/swagger": {
+      "optional": true
+    },
+    "nestjs-zod": {
+      "optional": true
+    },
+    "drizzle-orm": {
+      "optional": true
+    },
+    "pg": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aec-craft/platform-contracts": "workspace:*",
+    "slugify": "^1.6.6",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/swagger": "^11.4.2",
+    "@types/express": "^5.0.6",
+    "@types/node": "catalog:",
+    "@types/pg": "^8.20.0",
+    "drizzle-orm": "^0.44.0",
+    "nestjs-zod": "^4.3.1",
+    "pg": "^8.20.0",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

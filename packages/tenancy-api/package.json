@@ -1,0 +1,98 @@
+{
+  "name": "@aec-craft/platform-tenancy-api",
+  "version": "0.0.0",
+  "description": "Tenancy API. Organizations, the projects inside them, and the group tree that says who reaches what. Owns the `org` and `project` tables and writes the `group` table that `@aec-craft/platform-authorization` reads on every check. Embedded in the apps/api host.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./nest": {
+      "import": {
+        "types": "./dist/nest.d.ts",
+        "default": "./dist/nest.js"
+      },
+      "require": {
+        "types": "./dist/nest.d.cts",
+        "default": "./dist/nest.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "drizzle"
+  ],
+  "bin": {
+    "tenancy-api-migrate": "./dist/bin/tenancy-api-migrate.cjs"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "migrate": "tsx bin/tenancy-api-migrate.ts up",
+    "migrate:status": "tsx bin/tenancy-api-migrate.ts status",
+    "migrate:reconcile": "tsx bin/tenancy-api-migrate.ts reconcile",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "peerDependencies": {
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/common": {
+      "optional": true
+    },
+    "@nestjs/core": {
+      "optional": true
+    },
+    "@nestjs/swagger": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aec-craft/platform-audit-api": "workspace:*",
+    "@aec-craft/platform-authorization": "workspace:*",
+    "@aec-craft/platform-common": "workspace:*",
+    "@aec-craft/platform-contracts": "workspace:*",
+    "@aec-craft/platform-metadata": "workspace:*",
+    "@aec-craft/platform-users-api": "workspace:*",
+    "drizzle-orm": "^0.44.0",
+    "nestjs-zod": "^4.3.1",
+    "pg": "^8.20.0",
+    "slugify": "^1.6.6",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/swagger": "^11.4.2",
+    "@types/express": "^5.0.6",
+    "@types/node": "catalog:",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.0",
+    "reflect-metadata": "^0.2.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

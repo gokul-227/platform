@@ -1,0 +1,39 @@
+# The platform's own Postgres. The Ory stack (Kratos, Hydra, Keto)
+# is a separate concern and lives in the platform-id repo; bring it up there
+# with `pnpm ory:up` before starting this API.
+#
+# 5433, not 5432: a cloud-sql-proxy holds the default port on this machine, and
+# platform-id's own Postgres is on 5434.
+services:
+  postgres:
+    # Pinned to 16 to match the volume below. A major-version bump needs a dump
+    # and restore, not an image tag change: Postgres refuses to start on a data
+    # directory written by a different major.
+    image: postgres:16-alpine
+    container_name: platform-postgres
+    environment:
+      POSTGRES_USER: auth_app_role
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: platform
+    ports:
+      - "5433:5432"
+    volumes:
+      - platform-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_app_role -d platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  # The existing volume, adopted rather than replaced. It carries the local
+  # database, and it is named for `apps/auth` only because that app's compose
+  # file created it before this one existed. Declaring a fresh volume here would
+  # have started an empty Postgres and looked like the data had vanished.
+  #
+  # Renaming it means a dump and restore, which is a deliberate operation and
+  # not something a compose file should do on the way past.
+  platform-postgres:
+    name: auth_platform-postgres-data
+    external: true

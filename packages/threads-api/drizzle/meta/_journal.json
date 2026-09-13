@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1753290000000,
+      "tag": "0000_thread",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1785951335110,
+      "tag": "0001_group_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785951600000,
+      "tag": "0002_thread_subject",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1787344959448,
+      "tag": "0003_ms_precision",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1787348435924,
+      "tag": "0004_thread_message_parts",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1787348643673,
+      "tag": "0005_thread_run_metadata",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "audit_event" ADD COLUMN "actor_is_staff" boolean DEFAULT false NOT NULL;

@@ -1,0 +1,74 @@
+{
+  "name": "@aec-craft/platform-analysis-api",
+  "version": "0.0.3",
+  "description": "Analysis API. Named computations over the building model: measure, circulation, structure. Owns no tables; every result is derived and rebuildable. Embedded in the apps/api host.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./nest": {
+      "import": {
+        "types": "./dist/nest.d.ts",
+        "default": "./dist/nest.js"
+      },
+      "require": {
+        "types": "./dist/nest.d.cts",
+        "default": "./dist/nest.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "peerDependencies": {
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/common": {
+      "optional": true
+    },
+    "@nestjs/core": {
+      "optional": true
+    },
+    "@nestjs/swagger": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aec-craft/platform-authorization": "workspace:*",
+    "@aec-craft/platform-common": "workspace:*",
+    "@aec-craft/platform-contracts": "workspace:*",
+    "@aec-craft/platform-graph-api": "workspace:*",
+    "@aec-craft/platform-graph-client": "workspace:*",
+    "nestjs-zod": "^4.3.1",
+    "pg": "^8.20.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/swagger": "^11.4.2",
+    "@types/node": "catalog:",
+    "@types/pg": "^8.20.0",
+    "neo4j-driver": "^6.1.0",
+    "reflect-metadata": "^0.2.2",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "name": "@aec-craft/platform-admin-sdk",
+  "version": "0.2.0",
+  "description": "Typed HTTP client for the platform's staff surface (`/admin/*`). Separate from @aec-craft/platform-sdk so the routes and shapes of an internal console are not shipped to product teams. React bindings under ./react.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aec-craft/platform.git",
+    "directory": "packages/admin-sdk"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.js"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aec-craft/platform-contracts": "workspace:*",
+    "@aec-craft/platform-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.59.20",
+    "@types/node": "catalog:",
+    "@types/react": "^19.2.10",
+    "react": "^19.2.4",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

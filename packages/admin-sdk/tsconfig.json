@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "lib": ["ES2023", "DOM"],
+    "jsx": "react-jsx",
+    "types": [],
+    "strictNullChecks": true,
+    // @aec-craft/ui ships raw TSX that is type-checked as source (skipLibCheck
+    // covers only .d.ts) and does not satisfy exactOptionalPropertyTypes.
+    "exactOptionalPropertyTypes": false
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["dist", "node_modules"]
+}

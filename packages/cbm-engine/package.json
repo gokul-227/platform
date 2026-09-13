@@ -1,0 +1,53 @@
+{
+  "name": "@aec-craft/platform-cbm-engine",
+  "version": "0.1.2",
+  "description": "Executes declarations it does not own. Maps source instances into the graph vocabulary using a format profile's table, runs whatever derive passes it is handed, and serialises the result into one idempotent changeset. No file format, no geometry, no inference.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "format": "ultracite fix",
+    "lint": "ultracite check",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aec-craft/platform-contracts": "workspace:*",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aec-craft/platform.git",
+    "directory": "packages/cbm-engine"
+  }
+}

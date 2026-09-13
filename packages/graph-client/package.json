@@ -1,0 +1,49 @@
+{
+  "name": "@aec-craft/platform-graph-client",
+  "version": "0.0.3",
+  "description": "The client half of the graph projection: the bolt driver, the engine dialect, and a read-only session with a timeout. Serves no routes and knows no resource — graph-api writes the projection, this is what reads it.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "dependencies": {
+    "@aec-craft/platform-contracts": "workspace:*",
+    "neo4j-driver": "^6.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.0"
+  }
+}

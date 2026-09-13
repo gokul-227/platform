@@ -1,0 +1,98 @@
+{
+  "name": "@aec-craft/platform-sdk",
+  "version": "0.5.2",
+  "description": "Typed HTTP client for the Platform API (platform + agent runtime surfaces). Promise-based, framework-neutral, uses global fetch. React bindings (TanStack Query hooks + chat provider) under ./react; the settings surface (scope-aware <Settings> modal on @aec-craft/ui) under ./ui.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aec-craft/platform.git",
+    "directory": "packages/platform-sdk"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.js"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    },
+    "./ui": {
+      "import": {
+        "types": "./dist/ui.d.ts",
+        "default": "./dist/ui.js"
+      },
+      "require": {
+        "types": "./dist/ui.d.cts",
+        "default": "./dist/ui.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "dependencies": {
+    "@aec-craft/platform-contracts": "workspace:*"
+  },
+  "peerDependencies": {
+    "@aec-craft/ui": "^0.4.1",
+    "@tanstack/react-form": "^1.0.0",
+    "@tanstack/react-query": "^5.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@aec-craft/ui": {
+      "optional": true
+    },
+    "@tanstack/react-form": {
+      "optional": true
+    },
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@aec-craft/ui": "^0.4.1",
+    "@tanstack/react-form": "^1.32.0",
+    "@tanstack/react-query": "^5.59.20",
+    "@types/node": "catalog:",
+    "@types/react": "^19.2.10",
+    "react": "^19.2.4",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

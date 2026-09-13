@@ -1,0 +1,49 @@
+{
+  "name": "@aec-craft/platform-metadata",
+  "version": "0.0.0",
+  "description": "The metadata capability — a dotted-key-path KV surface over any table carrying a free-form `metadata` jsonb bag: pure path math, the shared PUT/DELETE body DTO, and a bind-per-table store doing the locked read-modify-write with an optional same-transaction hook. Domain-blind; domains bind their table at construction.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .tsbuildinfo coverage",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "dependencies": {
+    "@aec-craft/platform-contracts": "workspace:*",
+    "nestjs-zod": "^4.3.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "^0.44.0"
+  }
+}

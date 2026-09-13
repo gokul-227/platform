@@ -1,0 +1,136 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/next",
+    "ultracite/biome/tanstack",
+    "ultracite/biome/vitest",
+    "ultracite/biome/nestjs"
+  ],
+  "javascript": {
+    // NestJS uses parameter decorators (`@Inject(...) private readonly db`).
+    // The ultracite nestjs preset enables the lint rules but not the parser
+    // option, so without this Biome can't parse the DI code at all.
+    "parser": { "unsafeParameterDecoratorsEnabled": true }
+  },
+  "linter": {
+    "rules": {
+      // The repo deliberately uses dto/index barrels; keep them.
+      // noNamespaceImport only false-positives here: the migration registry,
+      // stock shadcn (`import * as React`), and openid-client's namespace idiom.
+      "performance": { "noBarrelFile": "off", "noNamespaceImport": "off" },
+      // noVoid: `void promise` is the idiomatic fire-and-forget for React
+      // Query's `void qc.invalidateQueries(...)` in onSuccess.
+      // noExcessiveCognitiveComplexity: a subjective metric the old eslint never
+      // had; the flagged functions (filter parsing, run-graph orchestration, the
+      // migration CLI, the auth proxy) carry inherent, not accidental, complexity.
+      "complexity": {
+        "noVoid": "off",
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      // useAwait: async-without-await is interface/framework conformance (Next
+      // route handlers, better-auth callbacks, the async Mailer interface, Nest
+      // signatures, test mocks; old eslint had `require-await: off`).
+      // noArrayIndexKey: the lists here are static placeholders (skeletons, the
+      // brand loader), append-only logs (chat/debug), or stock shadcn, none of
+      // which reorder, so the index is a correct key.
+      "suspicious": { "useAwait": "off", "noArrayIndexKey": "off" },
+      // noNestedTernary: logic nested ternaries were refactored to if-chains;
+      // the rest are idiomatic React loading/error/data JSX state machines.
+      // noNonNullAssertion: React Query enabled-gating (`orgId!` in a queryFn
+      // that only runs when set) and after-guard access. The old eslint enforced
+      // neither (strict-only rules, unused under recommended).
+      "style": { "noNestedTernary": "off", "noNonNullAssertion": "off" },
+      // useAnchorContent can't see content injected through Base UI's
+      // `render={<a/>}` prop (the menu item's children become the anchor's).
+      "a11y": { "useAnchorContent": "off" }
+    }
+  },
+  "overrides": [
+    {
+      // NestJS reads types at runtime from `emitDecoratorMetadata`, and
+      // `useImportType` erases them: an injected class stops resolving at boot,
+      // and a DTO parameter silently stops being validated, because the pipe
+      // reads the same metadata and passes the raw value through when it finds
+      // `Object`. Every package compiled with `emitDecoratorMetadata` belongs
+      // here, and a rename must update it: the list once read
+      // `packages/permissions/**`, an empty directory, and the package it meant
+      // to cover went uncovered until an unvalidated query reached the database
+      // a character at a time. Renaming a package and leaving its old path here
+      // does the same thing, silently, to every controller in it. These are backend
+      // packages with no React, so useHookAtTopLevel only false-positives on
+      // `app.useGlobalX`.
+      "includes": [
+        "packages/admin-api/**",
+        "packages/analysis-api/**",
+        "packages/audit-api/**",
+        "packages/authorization/**",
+        "packages/common/**",
+        "packages/files-api/**",
+        "packages/graph-api/**",
+        "packages/metadata/**",
+        "packages/objects-api/**",
+        "packages/rules-api/**",
+        "packages/tenancy-api/**",
+        "packages/threads-api/**",
+        "packages/users-api/**",
+        "apps/api/**"
+      ],
+      "linter": {
+        "rules": {
+          "style": { "useImportType": "off" },
+          "correctness": { "useHookAtTopLevel": "off" }
+        }
+      }
+    },
+    {
+      // DB migrations are numeric-prefixed snake_case by convention
+      // (`014_graph_version.ts`); see AGENTS.md.
+      "includes": ["**/database/migrations/**"],
+      "linter": { "rules": { "style": { "useFilenamingConvention": "off" } } }
+    },
+    {
+      // Tests (and the cosmos preview scaffolding) legitimately reach past
+      // visibility (bracket-access on privates to spy), use `!` and `any` on
+      // fixtures, and stub empty handlers. These were the documented test
+      // exemptions under the old eslint config.
+      "includes": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/tests/**",
+        "**/__tests__/**",
+        "packages/testing/**",
+        "**/preview/**"
+      ],
+      "linter": {
+        "rules": {
+          "complexity": { "useLiteralKeys": "off" },
+          "style": { "noNonNullAssertion": "off" },
+          "suspicious": {
+            "noExplicitAny": "off",
+            "noEmptyBlockStatements": "off",
+            // Preview fixtures demo with alert(); the next/link shim uses forwardRef.
+            "noAlert": "off",
+            "noReactForwardRef": "off"
+          },
+          // Perf rule; irrelevant to single-use assertion regexes in tests.
+          "performance": { "useTopLevelRegex": "off" }
+        }
+      }
+    },
+    {
+      // `app.useGlobalFilters` in the testing package's Nest bootstrap reads as
+      // a React hook to this rule.
+      "includes": ["packages/testing/**"],
+      "linter": { "rules": { "correctness": { "useHookAtTopLevel": "off" } } }
+    },
+    {
+      // The filter/sort applier bridges runtime filter specs onto Kysely's
+      // fully-generic ExpressionBuilder; `any` is unavoidable at that seam
+      // (validated at runtime by Postgres). The old eslint disabled it here too.
+      "includes": ["**/common/filters/**", "packages/common/src/filters/**"],
+      "linter": { "rules": { "suspicious": { "noExplicitAny": "off" } } }
+    }
+  ]
+}

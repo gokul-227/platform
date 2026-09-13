@@ -1,0 +1,35 @@
+# Local Pinecone for the document index.
+#
+# Mirrors packages/graph-api/compose.graph.yaml: one container, no external
+# services, no account.
+#
+# Bring it up:      pnpm db:index:up
+# Tear down:        pnpm db:index:down
+# Create the index: pnpm db:index:init   (see scripts/index-init.ts)
+#
+# Image notes:
+#   - pinecone-local is the database emulator: it serves the control plane on
+#     5080 and assigns each index its own port from 5081 up, which is why the
+#     whole range is published. db:index:init creates two: a dense index for
+#     semantic matching and a sparse one for lexical, since serverless keeps
+#     sparse vectors in an index of their own.
+#   - linux/amd64 only, so it runs under emulation on Apple Silicon. Fine for
+#     the handful of vectors a local test writes.
+#   - In-memory: every index and vector is gone on `down`. Re-run db:index:init.
+#   - It does not authenticate, so PINECONE_API_KEY can be any non-empty string.
+#   - Plain HTTP, unlike a hosted index. The driver honours the scheme in
+#     PINECONE_INDEX_HOST, so `http://localhost:5081` reaches it unchanged.
+#
+# Hosted indexes are the deployed path; this emulator caps at 100k vectors per
+# index and is not a performance model for either retrieval or ingestion.
+
+services:
+  pinecone:
+    image: ghcr.io/pinecone-io/pinecone-local:latest
+    container_name: platform-pinecone
+    platform: linux/amd64
+    ports:
+      - "5080-5090:5080-5090"
+    environment:
+      PORT: 5080
+      PINECONE_HOST: localhost

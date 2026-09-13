@@ -1,0 +1,48 @@
+{
+  "devDependencies": {
+    "@aec-craft/platform-id-permissions": "^0.2.0",
+    "@aec-craft/platform-testing": "workspace:*",
+    "@biomejs/biome": "2.4.16",
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.27.10",
+    "@vitest/coverage-v8": "^4.1.11",
+    "lefthook": "^2.1.9",
+    "typescript": "^6.0.3",
+    "ultracite": "7.8.3"
+  },
+  "name": "platform",
+  "scripts": {
+    "dev": "pnpm --filter \"./apps/*\" --parallel run dev",
+    "check": "pnpm -r run check",
+    "lint": "ultracite check",
+    "lint:fix": "ultracite fix",
+    "format": "ultracite fix",
+    "format:check": "ultracite check",
+    "test": "PLATFORM_TEST_RUN=$$ sh -c 'node packages/testing/src/bin/run-db.mjs create && pnpm -r --workspace-concurrency=1 run test; status=$?; node packages/testing/src/bin/run-db.mjs drop; exit $status'",
+    "test:coverage": "pnpm -r --workspace-concurrency=1 exec vitest run --coverage --passWithNoTests",
+    "build": "pnpm -r run build",
+    "build:packages": "pnpm -r --filter \"./packages/**\" run build",
+    "validate": "pnpm check && pnpm lint",
+    "clean": "pnpm -r exec rm -rf dist .tsbuildinfo coverage",
+    "db:migrate": "pnpm --filter @aec-craft/api db:migrate",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm -r build && changeset publish",
+    "fix": "ultracite fix",
+    "prepare": "lefthook install || true"
+  },
+  "version": "0.0.0",
+  "private": true,
+  "description": "Platform monorepo \u2014 building data graph engine, multi-tenant API, UI.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.10.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.4.1",
+  "pnpm": {
+    "overrides": {
+      "happy-dom": "^20.8.9"
+    }
+  }
+}

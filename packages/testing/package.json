@@ -1,0 +1,51 @@
+{
+  "name": "@aec-craft/platform-testing",
+  "version": "0.0.0",
+  "description": "Test-only utilities shared by every API package's integration and e2e suites: per-slice migration and truncation of the real test Postgres, the Nest host that mounts every API package, plain-TS service factories, and the fetch client that speaks the test principal header. Source-only — never built, never published.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./harness": "./src/harness.ts",
+    "./vitest": "./src/vitest.config.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "check": "tsc --noEmit",
+    "clean": "rm -rf .tsbuildinfo coverage",
+    "test": "vitest run --passWithNoTests",
+    "lint": "ultracite check",
+    "format": "ultracite fix"
+  },
+  "dependencies": {
+    "@aec-craft/platform-admin-api": "workspace:*",
+    "@aec-craft/platform-analysis-api": "workspace:*",
+    "@aec-craft/platform-audit-api": "workspace:*",
+    "@aec-craft/platform-authorization": "workspace:*",
+    "@aec-craft/platform-common": "workspace:*",
+    "@aec-craft/platform-contracts": "workspace:*",
+    "@aec-craft/platform-files-api": "workspace:*",
+    "@aec-craft/platform-graph-api": "workspace:*",
+    "@aec-craft/platform-id-resource-nestjs": "^0.4.0",
+    "@aec-craft/platform-objects-api": "workspace:*",
+    "@aec-craft/platform-tenancy-api": "workspace:*",
+    "@aec-craft/platform-threads-api": "workspace:*",
+    "@aec-craft/platform-users-api": "workspace:*",
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/platform-express": "^11.1.19",
+    "@nestjs/testing": "^11.1.19",
+    "drizzle-orm": "^0.44.0",
+    "nestjs-zod": "^4.3.1",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "vitest": "catalog:"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "catalog:",
+    "@types/pg": "^8.15.4",
+    "typescript": "catalog:"
+  }
+}
